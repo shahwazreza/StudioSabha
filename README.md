@@ -119,10 +119,6 @@ cp .env.example .env.local   # add the Supabase / Square / Resend keys
 npm run dev                  # http://localhost:3000
 ```
 
-`.env.local` holds secret keys and is excluded by `.gitignore`; never commit it. Without Supabase keys, the site runs in demo mode with sample artwork.
-
-Database setup, configuration and deployment steps are in [docs/SETUP.md](docs/SETUP.md). To regenerate the diagram images, see [docs/diagrams/README.md](docs/diagrams/README.md).
-
 ## Team
 
 - Reza Shahwaz

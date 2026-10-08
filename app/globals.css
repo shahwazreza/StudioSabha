@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Modernist design system: flat, square corners, 2px rules, one red accent. */
+
+@layer base {
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 800;
+    letter-spacing: -0.015em;
+  }
+
+  a {
+    text-underline-offset: 3px;
+  }
+
+  ::selection {
+    background: rgb(236 48 19 / 0.3);
+  }
+
+  :focus {
+    outline: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid theme("colors.accent.DEFAULT");
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* — buttons: labels sit flush left, trailing arrow pushed right — */
+  .btn {
+    @apply inline-flex cursor-pointer items-center justify-between gap-3 border border-transparent px-[18px] py-4 text-left text-base font-extrabold leading-tight text-ink no-underline;
+  }
+  .btn:disabled {
+    @apply cursor-not-allowed opacity-45;
+  }
+  .btn-primary {
+    @apply bg-accent text-paper hover:bg-accent-600 active:bg-accent-700;
+  }
+  .btn-secondary {
+    @apply border-2 border-rule hover:bg-ink/[0.07] active:bg-ink/[0.14];
+  }
+  .btn-light {
+    @apply bg-paper text-ink hover:bg-surface;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center gap-1 px-1 text-[15px] font-extrabold text-accent no-underline hover:bg-accent/10 active:bg-accent/20;
+  }
+
+  /* — tags — */
+  .tag {
+    @apply inline-flex items-center whitespace-nowrap px-2.5 py-[3px] text-[11px] tracking-[0.02em];
+  }
+  .tag-accent {
+    @apply bg-accent-100 text-accent-800;
+  }
+  .tag-neutral {
+    @apply bg-neutral-100 text-neutral-800;
+  }
+  .tag-outline {
+    @apply border border-accent text-accent;
+  }
+  .tag-new {
+    @apply bg-accent px-2 py-[3px] text-[11px] font-extrabold uppercase tracking-[0.08em] text-paper;
+  }
+
+  /* — kicker: small uppercase label above headings — */
+  .kicker {
+    @apply text-xs uppercase tracking-kicker text-accent;
+  }
+  .label-muted {
+    @apply text-[11px] uppercase tracking-[0.1em] text-accent-700;
+  }
+
+  /* — forms — */
+  .field > label,
+  .field-label {
+    @apply mb-[5px] block text-xs text-ink/70;
+  }
+  .input {
+    @apply min-h-[44px] w-full border border-rule bg-surface px-2.5 py-1.5 text-sm text-ink caret-accent hover:border-ink/45 focus-visible:border-accent;
+  }
+  .input:focus-visible {
+    outline-offset: 0;
+  }
+  textarea.input {
+    @apply min-h-[140px] resize-y;
+  }
+
+  /* — segmented control on native radios — */
+  .seg {
+    @apply inline-flex overflow-hidden border border-rule;
+  }
+  .seg-opt {
+    @apply relative inline-flex cursor-pointer items-center justify-center gap-1.5 px-3 py-[9px] text-[13px] no-underline;
+  }
+  .seg-opt + .seg-opt {
+    @apply border-l border-rule;
+  }
+  .seg-opt input {
+    @apply pointer-events-none absolute h-0 w-0 opacity-0;
+  }
+  .seg-opt:has(input:checked),
+  .seg-opt[aria-current="true"] {
+    @apply bg-accent text-paper;
+  }
+  .seg-opt:not(:has(input:checked)):not([aria-current="true"]):hover {
+    @apply bg-ink/[0.07];
+  }
+  .seg-opt:has(input:focus-visible) {
+    outline: 2px solid theme("colors.accent.DEFAULT");
+    outline-offset: -2px;
+  }
+
+  /* — tables — */
+  .table {
+    @apply w-full border-collapse text-sm;
+  }
+  .table th {
+    @apply border-b-2 border-rule p-2 text-left text-[11px] font-normal uppercase tracking-[0.08em] text-ink/60;
+  }
+  .table td {
+    @apply border-b border-rule p-2 align-middle;
+  }
+  .table tbody tr:hover {
+    @apply bg-ink/[0.04];
+  }
+
+  /* — public site: no long-press "Save image" menu or drag-out on phones — */
+  .protect-images img,
+  .protect-images [data-protect] {
+    -webkit-touch-callout: none;
+    -webkit-user-drag: none;
+    user-select: none;
+  }
+
+  /* — phones: when an artwork's buy bar is pinned to the bottom, give the
+     footer room underneath so its links and copyright aren't hidden — */
+  @media (max-width: 767px) {
+    body:has([data-buy-bar]) footer {
+      padding-bottom: calc(96px + env(safe-area-inset-bottom));
+    }
+  }
+
+  /* — imagery: photographs of people print black and white — */
+  .grayscale-photo {
+    filter: grayscale(1) contrast(1.08);
+  }
+}

@@ -1,0 +1,51 @@
+@startmindmap test-cases
+!include _style.iuml
+title StudioSabha: Test Cases and Status (as of 2026-10-07)
+
+<style>
+mindmapDiagram {
+  node { BackgroundColor #FFFFFF; LineColor #201E1D; FontSize 12 }
+  :depth(0) { BackgroundColor #201E1D; FontColor #FFFFFF; FontSize 15 }
+  :depth(1) { BackgroundColor #F3F2F2; FontSize 14 }
+}
+</style>
+
+* Test cases
+** Public site
+***[#D9F2D9] TC-01 All public pages load (/, shop, artwork, about, commissions, contact)
+***[#D9F2D9] TC-02 Shop opens in Grid; filters All / Originals / Prints / On sale
+***[#D9F2D9] TC-03 Paintings never cropped; centred; no page jump when switching photos
+***[#D9F2D9] TC-04 Gallery: arrows (desktop), swipe (phone), full screen, thumbnails
+***[#D9F2D9] TC-05 Phone: titles don't overlap prices; footer visible above buy bar
+***[#D9F2D9] TC-06 Renamed artwork: old address 308-redirects to new one
+***[#D9F2D9] TC-07 Portfolio / hidden pieces have no buy page (404)
+***[#D9F2D9] TC-08 Sale: crossed-out price, "You save", end time in Eastern
+***[#D9F2D9] TC-09 Announcements: home only, stacked, × until refresh, external link new tab
+***[#D9F2D9] TC-10 Images watermarked (≤1400px) with copyright EXIF
+***[#FFF3CD] TC-11 Contact / commission form submits; spam + rate limits
+** Studio admin
+***[#FFF3CD] TC-20 Sign in / sign out
+***[#FFF3CD] TC-21 Add artwork with photo, sizes, sale, NEW, slideshow
+***[#D9F2D9] TC-22 Delete artwork removes its images from storage
+***[#FFF3CD] TC-23 Remove photo + Save deletes the file
+***[#FFF3CD] TC-24 Create / recreate wall photo button
+***[#D9F2D9] TC-25 Create, edit, turn off, delete announcements
+***[#FFF3CD] TC-26 Edit About + black-and-white portrait toggle
+***[#FFF3CD] TC-27 Inquiries: mark replied, delete (with photos), no stuck "Deleting…"
+** Payments and email
+***[#E2E3E5] TC-30 Sandbox checkout (single price and sized piece)
+***[#E2E3E5] TC-31 Webhook marks paid once; stock drops; sold out at 0
+***[#E2E3E5] TC-32 Sale ended → checkout charges original price
+***[#E2E3E5] TC-33 Inquiry email arrives via Resend
+***[#E2E3E5] TC-34 "View on your wall" on a real phone (needs https)
+** Security
+***[#D9F2D9] TC-40 /admin bypass header is redirected to login
+***[#D9F2D9] TC-41 Image optimizer accepts only her storage bucket
+***[#FFF3CD] TC-42 Visitors cannot read private inquiry photos
+
+legend right
+  |<#D9F2D9>   | Verified (automated check or screenshot) |
+  |<#FFF3CD>   | To test (needs her login or a real submission) |
+  |<#E2E3E5>   | Blocked (waiting on Square, Resend or hosting) |
+endlegend
+@endmindmap

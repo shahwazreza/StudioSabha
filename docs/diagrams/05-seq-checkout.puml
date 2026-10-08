@@ -1,0 +1,38 @@
+@startuml seq-checkout
+!include _style.iuml
+title Buy Now: Checkout and Payment Flow
+autonumber
+
+actor Buyer
+participant "Artwork page" as Page
+participant "/api/checkout" as Checkout
+database "Supabase DB" as DB
+participant "Square" as Square
+participant "/api/webhooks/square" as Hook
+
+Buyer -> Page : choose size (if any), click Buy now
+Page -> Checkout : POST { artworkId, sizeId }
+note right of Checkout : Browser never sends a price
+Checkout -> DB : load artwork (+ sizes)\nstatus, stock, price, sale end
+alt sold / not available / size sold out / unpriced
+  Checkout --> Page : 409 + message
+  Page --> Buyer : "Sorry, no longer available"
+else OK
+  Checkout -> Checkout : effective price\n(original price if sale ended)
+  Checkout -> Square : create hosted payment link
+  Square --> Checkout : checkout URL + order id
+  Checkout -> DB : insert order (pending) + order_item\n(title, size, price snapshot)
+  Checkout --> Page : checkoutUrl
+  Page -> Square : redirect buyer
+  Buyer -> Square : pays (card data stays with Square)
+  Square -> Hook : payment.updated COMPLETED (signed)
+  Hook -> Hook : verify HMAC signature
+  Hook -> DB : pending → paid (only once)
+  Hook -> DB : reduce stock (size, then piece total);\nsold_out when 0
+  Square --> Buyer : receipt + return to site
+end
+note over Square, Hook
+  Pending: Square keys, webhook URL (needs public https),
+  saving buyer email/address, thank-you page, 15-min hold.
+end note
+@enduml

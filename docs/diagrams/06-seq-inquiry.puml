@@ -1,0 +1,28 @@
+@startuml seq-inquiry
+!include _style.iuml
+title Commission / Contact Inquiry Flow
+autonumber
+
+actor Visitor
+participant "Contact / Commission form" as Form
+participant "/api/contact" as Api
+database "Supabase DB" as DB
+database "Storage\ninquiry-references (private)" as Store
+participant "Resend" as Resend
+actor Artist
+
+Visitor -> Form : fills form (+ up to 5 photos)
+Form -> Form : shrink photos to ≤1600px JPEG\n(drops GPS/metadata)
+Form -> Api : POST multipart
+Api -> Api : honeypot · validate · ≤3 per 10 min per email\n· JPEG only · ≤2 MB each
+Api -> Store : upload reference photos
+Api -> DB : insert inquiry
+alt Resend configured
+  Api -> Resend : email to artist (reply-to visitor)
+end
+Api --> Form : ok
+Form --> Visitor : "Your message is on its way"
+Artist -> DB : /admin/inquiries (signed links to photos)
+Artist -> Artist : Reply by email · Mark replied · Delete
+note right of Artist : Delete also removes its photos from storage
+@enduml

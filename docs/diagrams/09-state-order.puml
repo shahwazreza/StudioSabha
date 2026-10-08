@@ -1,0 +1,14 @@
+@startuml state-order
+!pragma layout smetana
+!include _style.iuml
+title Order Status
+
+[*] --> pending : Buy now → Square link created
+pending : not shown in admin\n(abandoned checkouts stay here)
+paid : stock reduced
+pending --> paid : Square webhook\nCOMPLETED (once)
+paid --> fulfilled : shipped (planned:\ntracking in admin)
+paid --> cancelled : refunded (planned)
+fulfilled --> [*]
+cancelled --> [*]
+@enduml

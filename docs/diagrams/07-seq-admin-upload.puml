@@ -1,0 +1,28 @@
+@startuml seq-admin-upload
+!include _style.iuml
+title Admin: Add / Edit Artwork (with protection and wall photo)
+autonumber
+
+actor Artist
+participant "Artwork form\n(browser)" as Form
+database "Storage\nartwork-images (public)" as Store
+database "Supabase DB" as DB
+participant "Server action\nrefreshSite()" as Refresh
+
+Artist -> Form : title, sizes, price / sale, status, photos
+Form -> Form : resize to ≤1400px, faint "© Sabha Sumaiya"\nwatermark, copyright EXIF, strip GPS
+Form -> Store : upload watermarked copy only
+opt Create wall photo
+  Form -> Form : pick room template (tall / square / wide),\nfit painting on mat, shadow, watermark
+  Form -> Store : upload "-wall" photo on Save
+end
+Form -> Form : slug from title (old slug kept for redirects)
+Form -> DB : insert / update artwork + sizes
+Form -> Store : delete removed photos / old wall photo
+Form -> Refresh : clear page cache
+Refresh --> Artist : public pages show the change immediately
+note right of Store
+  Original full-size files stay
+  on the artist's own devices.
+end note
+@enduml

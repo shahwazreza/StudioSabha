@@ -1,0 +1,31 @@
+@startwbs sitemap
+!include _style.iuml
+title StudioSabha: Site Map
+* studiosabha (site)
+** Index /
+*** Announcement banners (home only)
+*** Slideshow · Available now
+*** About the artist · Highlights
+** Shop /shop
+*** ?view=grid (default) | list
+*** ?filter=originals | prints | sale
+*** Artwork /artwork/[slug]
+**** Photos + wall photo · full screen
+**** Sizes · Buy now · Ask about it
+**** View on your wall (AR)
+** Commissions /commissions
+** About /about
+*** Selected work (portfolio)
+** Contact /contact
+*** ?artwork=[id] (ask about a piece)
+** Studio admin /admin
+*** Sign in /admin/login
+*** Overview /admin
+*** Works /admin/works
+**** Add /admin/new
+**** Edit /admin/[id]/edit
+*** Orders /admin/orders
+*** Inquiries /admin/inquiries
+*** Announcements /admin/announcement
+*** About /admin/about
+@endwbs

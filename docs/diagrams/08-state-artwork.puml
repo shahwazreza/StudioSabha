@@ -1,0 +1,23 @@
+@startuml state-artwork
+!pragma layout smetana
+!include _style.iuml
+title Artwork Status (what shoppers can do)
+
+[*] --> available : priced, photo added
+[*] --> inquire_only : no price yet
+[*] --> portfolio : not for sale
+available : Buy now (+ sizes, sale price)
+inquire_only : "On request" + Ask about it
+sold_out : "Sold" tag, no purchase
+hidden : not on the site
+portfolio : About page gallery only
+
+available --> sold_out : last item paid\n(webhook)
+available --> inquire_only : artist edits
+inquire_only --> available : artist sets price
+sold_out --> available : artist restocks
+available --> hidden : artist hides
+hidden --> available : artist shows
+portfolio --> available : artist decides to sell
+available --> [*] : artist deletes\n(blocked if orders exist)
+@enduml

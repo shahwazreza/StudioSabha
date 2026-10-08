@@ -1,0 +1,102 @@
+@startuml data-model
+!pragma layout smetana
+!include _style.iuml
+title StudioSabha: Data Model (Supabase Postgres)
+hide circle
+hide methods
+
+entity artworks {
+  * id : uuid <<PK>>
+  --
+  * title : text
+  * slug : text <<unique>>
+  previous_slugs : text[]  (old addresses → redirect)
+  catalogue_number : int <<unique>>  (internal only)
+  description : text
+  medium : text
+  dimensions : text  ("18 x 24 in")
+  * price_cents : int  (price charged)
+  compare_at_cents : int  (original price for a sale)
+  sale_ends_at : timestamptz  (empty = no end)
+  is_print : bool
+  edition : text
+  signed : bool
+  * quantity_available : int
+  * status : text  (available | inquire_only | sold_out | hidden | portfolio)
+  image_urls : text[]  (1st = main, "-wall" = room photo)
+  marked_new_at : timestamptz  (NEW for 60 days)
+  home_slide : bool  (homepage slideshow)
+  created_at / updated_at : timestamptz
+}
+
+entity artwork_sizes {
+  * id : uuid <<PK>>
+  --
+  * artwork_id : uuid <<FK>>
+  * label : text  ("8 x 10 in")
+  * price_cents : int
+  compare_at_cents : int
+  * quantity_available : int
+  sort_order : int
+}
+
+entity orders {
+  * id : uuid <<PK>>
+  --
+  square_order_id : text
+  square_payment_id : text
+  customer_email : text
+  customer_name : text
+  shipping_address : jsonb
+  * total_cents : int
+  * status : text  (pending | paid | fulfilled | cancelled)
+  created_at : timestamptz
+}
+
+entity order_items {
+  * id : uuid <<PK>>
+  --
+  order_id : uuid <<FK>>
+  artwork_id : uuid <<FK>>
+  size_id : uuid <<FK>>
+  * title_snapshot : text
+  size_label : text
+  * price_cents_snapshot : int
+  * quantity : int
+}
+
+entity inquiries {
+  * id : uuid <<PK>>
+  --
+  * name : text
+  * email : text
+  * message : text
+  inquiry_type : text  (commission | listed_piece | question)
+  subject : text
+  rough_size : text
+  reference_paths : text[]  (private bucket)
+  artwork_id : uuid <<FK>>
+  replied_at : timestamptz
+  created_at : timestamptz
+}
+
+entity site_content {
+  * id : text <<PK>>  ("about" | "announcement")
+  --
+  * content : jsonb
+  updated_at : timestamptz
+}
+
+artworks ||--o{ artwork_sizes : "sold in"
+orders ||--|{ order_items : contains
+artworks ||--o{ order_items : "bought as"
+artwork_sizes |o--o{ order_items : "chosen size"
+artworks |o--o{ inquiries : "asked about"
+
+note right of site_content
+  about: name, intro, summary, story,
+  portrait, exhibitions, highlights
+  announcement: { items: [message, link,
+  start/end, countdown, colour, ...] }
+end note
+@enduml

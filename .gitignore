@@ -1,0 +1,48 @@
+# --- Secrets: never commit ---
+# Real keys (Supabase service role, Square, Resend) live only in these files.
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+# The template with empty values IS committed:
+!.env.example
+
+# --- Dependencies ---
+node_modules/
+.pnp
+.pnp.js
+
+# --- Next.js build output ---
+.next/
+out/
+build/
+next-env.d.ts
+*.tsbuildinfo
+
+# --- Testing ---
+coverage/
+test-results/
+
+# --- Hosting ---
+.vercel/
+.amplify/
+amplify/#current-cloud-backend/
+
+# --- Logs ---
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Tools ---
+plantuml.jar
+
+# --- OS / editors ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp

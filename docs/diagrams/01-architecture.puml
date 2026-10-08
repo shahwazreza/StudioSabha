@@ -1,0 +1,58 @@
+@startuml architecture
+!pragma layout smetana
+!include _style.iuml
+title StudioSabha: System Architecture
+
+actor "Visitor / Buyer" as visitor
+actor "Artist (admin)" as artist
+
+rectangle "Next.js 14 app (TypeScript)\nHosting: to be decided (Vercel / AWS)" as app {
+  component "Public site\n/ · /shop · /artwork/[slug]\n/about · /commissions · /contact" as site
+  component "Studio admin (login required)\n/admin · works · orders · inquiries\nannouncements · about" as admin
+  component "Middleware\n(protects /admin)" as mw
+  component "API: /api/checkout" as apiCheckout
+  component "API: /api/contact" as apiContact
+  component "API: /api/webhooks/square" as apiWebhook
+  component "API: /api/ar/[slug]\n(3D model for wall view)" as apiAr
+  component "Image optimizer\n(only her storage bucket)" as img
+}
+
+cloud "Supabase" as supa {
+  database "Postgres\nartworks · artwork_sizes · orders\norder_items · inquiries · site_content\n(Row Level Security)" as db
+  component "Auth\n(artist login)" as auth
+  database "Storage\nartwork-images (public, watermarked)\ninquiry-references (private)" as storage
+}
+
+cloud "Square\nHosted checkout + webhooks\n(not yet configured)" as square
+cloud "Resend\nInquiry emails\n(not yet configured)" as resend
+cloud "Google Fonts\n(Archivo)" as fonts
+rectangle "Phone AR viewers\niOS Quick Look / Android Scene Viewer" as arviewer
+
+visitor --> site : browses, buys,\nsends inquiries
+artist --> admin : manages content
+admin ..> mw
+mw --> auth : session check
+site --> db : reads (anon key)
+admin --> db : reads / writes\n(her login)
+admin --> storage : uploads watermarked\nimages
+site --> img
+img --> storage
+site --> apiCheckout : Buy now
+apiCheckout --> db : price + stock\n(service key)
+apiCheckout --> square : create payment link
+square --> apiWebhook : payment completed\n(signed)
+apiWebhook --> db : mark paid,\nreduce stock
+site --> apiContact : inquiry form
+apiContact --> db : save inquiry
+apiContact --> storage : reference photos
+apiContact --> resend : notify artist
+site --> apiAr
+apiAr --> arviewer : .glb model
+site ..> fonts
+
+note bottom of storage
+  Full-size originals are NOT stored online;
+  the artist keeps them. Public copies are
+  ≤1400px, watermarked, with copyright EXIF.
+end note
+@enduml

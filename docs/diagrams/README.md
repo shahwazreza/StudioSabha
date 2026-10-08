@@ -15,14 +15,3 @@ PlantUML sources (`*.puml`) with rendered images in `png/`. All share `_style.iu
 | `09-state-order.puml` | Order statuses |
 | `10-test-cases.puml` | Test cases with status (verified / to test / blocked) |
 
-## Regenerating the PNGs
-
-Needs Java. Download `plantuml.jar` from https://plantuml.com/download (no install needed), then from this folder:
-
-```
-java -jar /path/to/plantuml.jar -tpng -o png *.puml
-```
-
-Graphviz isn't required: the diagrams that need a layout engine use PlantUML's built-in one (`!pragma layout smetana`).
-
-Update `10-test-cases.puml` as tests are run (green = verified, yellow = to test, grey = blocked) and when Square, Resend or hosting are set up.

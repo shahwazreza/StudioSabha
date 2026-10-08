@@ -37,15 +37,20 @@ export default async function HomePage() {
     <div className="mx-auto max-w-page">
       {/* Hero */}
       <section className="grid grid-cols-1 border-b-2 border-rule md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
-        <div className="flex flex-col justify-between gap-5 border-b-2 border-rule px-5 pb-6 pt-7 md:gap-12 md:border-b-0 md:border-r-2 md:px-10 md:pb-10 md:pt-14">
+        <div className="flex flex-col justify-center gap-5 border-b-2 border-rule px-5 pb-6 pt-7 md:gap-9 md:border-b-0 md:border-r-2 md:px-10 md:py-10">
           <div className="flex flex-wrap gap-x-6 gap-y-1 text-[11px] uppercase tracking-kicker md:text-xs">
             <span className="text-accent">Original paintings</span>
             <span>Sabha Sumaiya</span>
 
           </div>
-          <h1 className="m-0 text-balance text-[54px] leading-[0.9] tracking-[-0.045em] md:text-[80px] xl:text-[112px]">
-            Ordinary days, painted until they&rsquo;re real.
-          </h1>
+          <div>
+            <h1 className="m-0 text-balance text-[44px] leading-[0.92] tracking-[-0.04em] md:text-[64px] xl:text-[88px]">
+              &ldquo;Beauty perishes in life, but is immortal in art.&rdquo;
+            </h1>
+            <p className="m-0 mt-4 text-sm uppercase tracking-kicker opacity-65 md:mt-5 md:text-base">
+              &mdash; Leonardo da Vinci
+            </p>
+          </div>
           <div className="grid grid-cols-1 items-end gap-5 md:grid-cols-2 md:gap-8">
             <p className="m-0 max-w-[360px] text-[15px] leading-[1.45] md:text-[17px]">
               Hyper-realistic paintings of everyday scenes by Sabha Sumaiya,

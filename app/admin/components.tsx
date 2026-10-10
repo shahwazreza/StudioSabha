@@ -4,6 +4,7 @@ import { Artwork, INQUIRY_TYPE_LABELS, displayPrice, formatCat, formatPrice, isN
 import { InquiryWithPhotos, OrderRow } from "@/lib/admin-data";
 import InquiryActions from "./InquiryActions";
 import DeleteArtworkButton from "@/components/DeleteArtworkButton";
+import { adminHref } from "@/lib/admin-path";
 
 export function SectionHeading({ title, href, linkLabel }: { title: string; href?: string; linkLabel?: string }) {
   return (
@@ -59,7 +60,7 @@ export function WorksTable({ works }: { works: Artwork[] }) {
                   <span className={`tag ${status.tag}`}>{status.label}</span>
                 </td>
                 <td className="whitespace-nowrap">
-                  <Link href={`/admin/${w.id}/edit`} className="font-semibold">
+                  <Link href={adminHref(`/${w.id}/edit`)} className="font-semibold">
                     Edit
                   </Link>
                   <DeleteArtworkButton
@@ -83,7 +84,7 @@ export function WorksTable({ works }: { works: Artwork[] }) {
           return (
             <Link
               key={w.id}
-              href={`/admin/${w.id}/edit`}
+              href={adminHref(`/${w.id}/edit`)}
               className="grid min-h-14 grid-cols-[36px_1fr_auto] items-center gap-3 border-t border-rule py-3 text-ink no-underline"
             >
               <b className="text-accent">{formatCat(w.catalogue_number)}</b>

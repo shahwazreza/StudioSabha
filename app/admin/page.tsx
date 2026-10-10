@@ -4,6 +4,7 @@ import { InquiryCard, OrdersTable, SectionHeading, WorksTable } from "./componen
 import { Plus } from "@/components/icons";
 import { getAdminInquiries, getAdminOrders, getAdminWorks, startOfMonth } from "@/lib/admin-data";
 import { formatCat, formatPrice } from "@/lib/types";
+import { adminHref } from "@/lib/admin-path";
 
 export const dynamic = "force-dynamic";
 
@@ -38,7 +39,7 @@ export default async function AdminOverview() {
     <>
       <div className="flex flex-col gap-3.5 border-b-2 border-rule px-5 pb-[18px] pt-6 md:flex-row md:items-end md:justify-between md:px-10 md:pb-6 md:pt-9">
         <Greeting />
-        <Link href="/admin/new" className="btn btn-primary whitespace-nowrap px-4 py-[15px] text-[15px] md:px-[18px] md:py-3.5">
+        <Link href={adminHref("/new")} className="btn btn-primary whitespace-nowrap px-4 py-[15px] text-[15px] md:px-[18px] md:py-3.5">
           Add new piece <Plus className="h-4 w-4" />
         </Link>
       </div>
@@ -57,11 +58,11 @@ export default async function AdminOverview() {
 
       <div className="flex flex-col md:grid md:grid-cols-[8fr_4fr]">
         <div className="order-2 px-5 py-5 md:order-1 md:border-r-2 md:border-rule md:px-10 md:py-7">
-          <SectionHeading title="Works" href="/admin/works" linkLabel={`All ${formatCat(works.length)}`} />
+          <SectionHeading title="Works" href={adminHref("/works")} linkLabel={`All ${formatCat(works.length)}`} />
           <WorksTable works={works.slice(0, 6)} />
 
           <div className="mt-8">
-            <SectionHeading title="Recent orders" href="/admin/orders" linkLabel="All orders" />
+            <SectionHeading title="Recent orders" href={adminHref("/orders")} linkLabel="All orders" />
             <OrdersTable orders={orders.slice(0, 5)} />
           </div>
         </div>
@@ -77,7 +78,7 @@ export default async function AdminOverview() {
             <p className="border-t-2 border-rule py-4 opacity-65">No inquiries yet.</p>
           )}
           {inquiries.length > 3 && (
-            <Link href="/admin/inquiries" className="btn-ghost text-sm">
+            <Link href={adminHref("/inquiries")} className="btn-ghost text-sm">
               All inquiries →
             </Link>
           )}

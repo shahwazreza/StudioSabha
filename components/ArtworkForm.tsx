@@ -14,6 +14,7 @@ import { isoToShopInput, shopInputToISO } from "@/lib/shop-time";
 type SizeRow = { id?: string; label: string; price: string; compareAt: string; quantity: string };
 import { ArrowRight } from "@/components/icons";
 import { refreshSite } from "@/app/admin/actions";
+import { useAdminPaths } from "@/app/admin/AdminPathProvider";
 
 function slugify(title: string) {
   return title
@@ -32,6 +33,7 @@ function friendlyError(err: { message?: string; code?: string }) {
 
 export default function ArtworkForm({ artwork }: { artwork?: Artwork }) {
   const router = useRouter();
+  const admin = useAdminPaths();
   const supabase = createClient();
   const isEditing = Boolean(artwork);
 
@@ -263,7 +265,7 @@ export default function ArtworkForm({ artwork }: { artwork?: Artwork }) {
 
       await refreshSite();
 
-      router.push("/admin/works");
+      router.push(admin.href("/works"));
       router.refresh();
     } catch (err) {
       setError(friendlyError(err as { message?: string; code?: string }));

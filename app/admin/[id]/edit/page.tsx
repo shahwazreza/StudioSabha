@@ -4,6 +4,7 @@ import { Artwork, formatCat } from "@/lib/types";
 import { attachSizes } from "@/lib/artworks";
 import ArtworkForm from "@/components/ArtworkForm";
 import DeleteArtworkButton from "@/components/DeleteArtworkButton";
+import { adminHref } from "@/lib/admin-path";
 
 export default async function EditArtworkPage({ params }: { params: { id: string } }) {
   const { data: found } = await createClient()
@@ -32,7 +33,7 @@ export default async function EditArtworkPage({ params }: { params: { id: string
             id={artwork.id}
             title={artwork.title}
             imageUrls={artwork.image_urls}
-            redirectTo="/admin/works"
+            redirectTo={adminHref("/works")}
             className="btn btn-secondary shrink-0 px-4 py-2.5 text-sm text-accent"
           />
         </div>

@@ -5,12 +5,14 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { isDemoMode } from "@/lib/demo-data";
 import { ArrowRight } from "@/components/icons";
+import { useAdminPaths } from "../AdminPathProvider";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const admin = useAdminPaths();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -30,7 +32,7 @@ export default function LoginPage() {
       );
       return;
     }
-    router.push("/admin");
+    router.push(admin.href());
     router.refresh();
   }
 
@@ -42,7 +44,7 @@ export default function LoginPage() {
         {isDemoMode && (
           <p className="mt-3 text-sm opacity-65">
             Demo mode: sign-in is disabled and{" "}
-            <a href="/admin">/admin</a> is open directly. Connect a real
+            <a href={admin.href()}>the studio</a> is open directly. Connect a real
             Supabase project (see README) to require a password.
           </p>
         )}

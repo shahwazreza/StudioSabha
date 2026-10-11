@@ -48,68 +48,82 @@ grant execute on function public.is_admin() to anon, authenticated;
 
 -- ============ Tables ============
 drop policy if exists "Authenticated users manage artworks" on artworks;
+drop policy if exists "Admin manages artworks" on artworks;
 create policy "Admin manages artworks"
   on artworks for all
   using (public.is_admin()) with check (public.is_admin());
 
 drop policy if exists "Authenticated users manage sizes" on artwork_sizes;
+drop policy if exists "Admin manages sizes" on artwork_sizes;
 create policy "Admin manages sizes"
   on artwork_sizes for all
   using (public.is_admin()) with check (public.is_admin());
 
 drop policy if exists "Authenticated users view orders" on orders;
+drop policy if exists "Admin views orders" on orders;
 create policy "Admin views orders"
   on orders for select using (public.is_admin());
 
 drop policy if exists "Authenticated users view order items" on order_items;
+drop policy if exists "Admin views order items" on order_items;
 create policy "Admin views order items"
   on order_items for select using (public.is_admin());
 
 drop policy if exists "Authenticated users view inquiries" on inquiries;
+drop policy if exists "Admin views inquiries" on inquiries;
 create policy "Admin views inquiries"
   on inquiries for select using (public.is_admin());
 
 drop policy if exists "Authenticated users update inquiries" on inquiries;
+drop policy if exists "Admin updates inquiries" on inquiries;
 create policy "Admin updates inquiries"
   on inquiries for update
   using (public.is_admin()) with check (public.is_admin());
 
 drop policy if exists "Authenticated users delete inquiries" on inquiries;
+drop policy if exists "Admin deletes inquiries" on inquiries;
 create policy "Admin deletes inquiries"
   on inquiries for delete using (public.is_admin());
 
 drop policy if exists "Authenticated users edit site content" on site_content;
+drop policy if exists "Admin edits site content" on site_content;
 create policy "Admin edits site content"
   on site_content for all
   using (public.is_admin()) with check (public.is_admin());
 
 -- ============ Storage ============
 drop policy if exists "Authenticated users upload artwork images" on storage.objects;
+drop policy if exists "Admin uploads artwork images" on storage.objects;
 create policy "Admin uploads artwork images"
   on storage.objects for insert to authenticated
   with check (bucket_id = 'artwork-images' and public.is_admin());
 
 drop policy if exists "Authenticated users update artwork images" on storage.objects;
+drop policy if exists "Admin updates artwork images" on storage.objects;
 create policy "Admin updates artwork images"
   on storage.objects for update to authenticated
   using (bucket_id = 'artwork-images' and public.is_admin());
 
 drop policy if exists "Authenticated users delete artwork images" on storage.objects;
+drop policy if exists "Admin deletes artwork images" on storage.objects;
 create policy "Admin deletes artwork images"
   on storage.objects for delete to authenticated
   using (bucket_id = 'artwork-images' and public.is_admin());
 
 drop policy if exists "Authenticated users view artwork images" on storage.objects;
+drop policy if exists "Admin lists artwork images" on storage.objects;
 create policy "Admin lists artwork images"
   on storage.objects for select to authenticated
   using (bucket_id = 'artwork-images' and public.is_admin());
 
 drop policy if exists "Authenticated users view inquiry references" on storage.objects;
+drop policy if exists "Admin views inquiry references" on storage.objects;
 create policy "Admin views inquiry references"
   on storage.objects for select to authenticated
   using (bucket_id = 'inquiry-references' and public.is_admin());
 
 drop policy if exists "Authenticated users delete inquiry references" on storage.objects;
+drop policy if exists "Admin deletes inquiry references" on storage.objects;
 create policy "Admin deletes inquiry references"
   on storage.objects for delete to authenticated
   using (bucket_id = 'inquiry-references' and public.is_admin());
